@@ -1,39 +1,30 @@
-name: Trigger Release
+name: Sync Branches
 
 on:
-  workflow_dispatch:
-    inputs:
-      source_branch:
-        description: 'Source branch'
-        required: true
-        default: 'alpha'
-        type: string
-      target_branch:
-        description: 'Target branch'
-        required: true
-        default: 'main'
-        type: choice
-        options:
-          - main
-          - master
+  push:
+    tags:
+      - '[0-9]+.[0-9]+.[0-9]+'
+    branches:
+      - main
+      - master
 
 jobs:
-  trigger-release:
+  sync-branches:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: "Trigger merge from ${{ inputs.source_branch }} to ${{ inputs.target_branch }}"
+      - name: "Sync branches after release"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SOURCE_BRANCH: ${{ github.event.inputs.source_branch }}
-          TARGET_BRANCH: ${{ github.event.inputs.target_branch }}
-          PR_TITLE: "ci: merge ${{ github.event.inputs.source_branch }} into ${{ github.event.inputs.target_branch }}"
-          PR_BODY: "⚠️ This pull request has been created to trigger a release on ${{ github.event.inputs.target_branch }} an will merge automatically."
+          TARGET_BRANCH: "alpha"
         run: |
+          SOURCE_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+
           git checkout ${TARGET_BRANCH}
           git checkout ${SOURCE_BRANCH}
+
           has_diff=$( git diff --quiet --exit-code ${SOURCE_BRANCH} ${TARGET_BRANCH} ; echo $? )
           if [[ "${has_diff}" == "0" ]]; then
             echo "no diff between ${SOURCE_BRANCH} and ${DEPLOY_TARGET}, aborting step ..."
@@ -46,7 +37,7 @@ jobs:
           echo "🚀 Creating pull request from ${SOURCE_BRANCH} to ${TARGET_BRANCH}"
 
           PR_TITLE="ci: merge ${SOURCE_BRANCH} into ${TARGET_BRANCH}"
-          PR_BODY="This pull request has been created to trigger a release on ${TARGET_BRANCH} an should merge automatically"
+          PR_BODY="⚠️ This pull request has been created after a release tag on ${TARGET_BRANCH} an should merge automatically"
 
           pr_url=$( gh pr create --base ${TARGET_BRANCH} --head ${SOURCE_BRANCH} --title "${PR_TITLE}" --body "${PR_BODY}" --no-maintainer-edit )
 
@@ -57,8 +48,8 @@ jobs:
             exit 1
           fi
 
-          echo "🚀 Merging pull request ${pr_url} using a merge commit ..."
+          echo "🚀 Merging pull request ${pr_url} using rebase ..."
 
-          gh pr merge ${pr_url} --admin --merge --subject "${PR_TITLE}"
+          gh pr merge ${pr_url} --admin --rebase"
 
           echo "Pull request merged 🚀"
