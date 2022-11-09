@@ -46,6 +46,6 @@ jobs:
 
           echo "🚀 Merging pull request ${pr_url} using rebase ..."
 
-          gh pr merge ${pr_url} --admin --rebase"
+          gh pr merge ${pr_url} --admin --rebase
 
           echo "Pull request merged 🚀"
