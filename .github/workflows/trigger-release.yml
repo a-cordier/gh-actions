@@ -62,14 +62,14 @@ jobs:
 
           echo "🚀 Merging pull request ${pr_url} using a merge commit ..."
 
-          gh pr merge ${pr_url} --admin --merge --subject ${PR_TITLE}
+          gh pr merge ${pr_url} --admin --merge --subject "${PR_TITLE}"
 
           echo "Pull request merged 🚀"
 
           echo "🚀 Creating pull request back from ${TARGET_BRANCH} to ${SOURCE_BRANCH}"
 
           PR_TITLE="ci: merge ${TARGET_BRANCH} into ${SOURCE_BRANCH}"
-          PR_BODY="This pull request has been created after a release on ${TARGET_BRANCH} an should merge automatically"
+          PR_BODY="⚠️ This pull request has been created after a release on ${TARGET_BRANCH} an should merge automatically"
 
           pr_url=$( gh pr create --base ${SOURCE_BRANCH} --head ${TARGET_BRANCH} --title "${PR_TITLE}" --body "${PR_BODY}" --no-maintainer-edit )
 
