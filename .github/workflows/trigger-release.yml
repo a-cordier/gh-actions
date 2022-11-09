@@ -46,9 +46,9 @@ jobs:
             exit 1
           fi
           
-          echo "🚀 Creating pull request ..."
+          echo "🚀 Creating pull request from ${SOURCE_BRANCH} to ${TARGET_BRANCH}"
 
-          pr_url=$( gh pr create --base ${TARGET_BRANCH} --head ${SOURCE_BRANCH} --title "{$PR_TITLE}" --body "${PR_BODY}" --no-maintainer-edit )
+          pr_url=$( gh pr create --base ${TARGET_BRANCH} --head ${SOURCE_BRANCH} --title "${PR_TITLE}" --body "${PR_BODY}" --no-maintainer-edit )
 
           echo "Created pull request ${pr_url} 🚀"
 
@@ -59,7 +59,7 @@ jobs:
 
           echo "🚀 Merging pull request ${pr_url} ..."
 
-          gh pr merge ${pr_url} --admin --merge
+          gh pr merge ${pr_url} --admin --merge --body ${PR_TITLE}
 
           echo "Pull request merged 🚀"
 
