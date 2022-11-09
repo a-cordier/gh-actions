@@ -46,18 +46,18 @@ jobs:
             exit 1
           fi
           
-          echo "Creating pull request ..."
+          echo "🚀 Creating pull request ..."
 
           pr_url=$( gh pr create --base ${TARGET_BRANCH} --head ${SOURCE_BRANCH} --title "{$PR_TITLE}" --body "${PR_BODY}" --no-maintainer-edit )
 
-          echo "Created pull request ${pr_url}"
+          echo "Created pull request ${pr_url} 🚀"
 
           if [[ -z "${pr_url}" ]]; then
             echo "tailed to create pull request unexpectedly."
             exit 1
           fi
 
-          echo "Merging pull request ${pr_url} ..."
+          echo "🚀 Merging pull request ${pr_url} ..."
 
           gh pr merge ${pr_url} --admin --merge
 
