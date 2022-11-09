@@ -16,7 +16,6 @@ on:
         default: 'main'
         type: choice
         options:
-          - main
           - master
 
 jobs:
