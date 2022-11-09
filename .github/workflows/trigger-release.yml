@@ -47,7 +47,7 @@ jobs:
           # Create pull request
           pr_url=$( \
             gh pr create \
-              --base ${SOURCE_BRANCH} \
+              --base ${TARGET_BRANCH} \
               --head ${SOURCE_BRANCH} \
               --title "chore: merge ${SOURCE_BRANCH} into ${TARGET_BRANCH}" \
               --body "This pull request has been created to trigger a release on ${TARGET_BRANCH} an will merge automatically." \
