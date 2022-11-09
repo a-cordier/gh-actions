@@ -16,7 +16,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TARGET_BRANCH: "alpha"
-          SOURCE_BRANCH: "master"
+          SOURCE_BRANCH: "main"
         run: |
           has_diff=$( git diff --quiet --exit-code ${SOURCE_BRANCH} ${TARGET_BRANCH} ; echo $? )
           if [[ "${has_diff}" == "0" ]]; then
