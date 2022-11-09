@@ -1,4 +1,4 @@
-name: Trigger release
+name: Trigger Release
 
 on:
   workflow_dispatch:
@@ -21,7 +21,7 @@ on:
           - master
 
 jobs:
-  create-and-merge-pull-request:
+  trigger-release:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -49,7 +49,7 @@ jobs:
           echo "🚀 Creating pull request from ${SOURCE_BRANCH} to ${TARGET_BRANCH}"
 
           PR_TITLE="ci: merge ${SOURCE_BRANCH} into ${TARGET_BRANCH}"
-          PR_BODY: "This pull request has been created to trigger a release on ${TARGET_BRANCH} an should merge automatically"
+          PR_BODY="This pull request has been created to trigger a release on ${TARGET_BRANCH} an should merge automatically"
 
           pr_url=$( gh pr create --base ${TARGET_BRANCH} --head ${SOURCE_BRANCH} --title "${PR_TITLE}" --body "${PR_BODY}" --no-maintainer-edit )
 
