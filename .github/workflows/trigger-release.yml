@@ -48,7 +48,7 @@ jobs:
           pr_url=$( \
             gh pr create \
               --base ${SOURCE_BRANCH} \
-              --head ${SOURCE_BRANCH} --label "semantic-release" \
+              --head ${SOURCE_BRANCH} \
               --title "chore: merge ${SOURCE_BRANCH} into ${TARGET_BRANCH}" \
               --body "This pull request has been created to trigger a release on ${TARGET_BRANCH} an will merge automatically." \
               --no-maintainer-edit )
