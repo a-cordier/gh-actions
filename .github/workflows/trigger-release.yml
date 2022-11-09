@@ -1,0 +1,29 @@
+name: Trigger release
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_branch:
+        description: 'Source branch'
+        required: true
+        default: 'alpha'
+        type: choice
+        options:
+          - alpha
+          - develop
+      target_branch:
+        description: 'Target branch'
+        required: true
+        default: 'main'
+        type: choice
+        options:
+          - main
+          - master
+
+jobs:
+  deploy:
+    uses: ./.github/workflows/create-and-merge-pr.yml
+    with:
+      source_branch: ${{ github.event.inputs.source_branch }}
+      target_branch: ${{ github.event.inputs.target_branch }}
+
