@@ -19,9 +19,6 @@ on:
         options:
           - main
           - master
-    secrets:
-          GH_TOKEN:
-            required: true
 
 jobs:
   create-and-merge-pull-request:
@@ -32,7 +29,7 @@ jobs:
           fetch-depth: 0
       - name: "Trigger merge from ${{ inputs.source_branch }} to ${{ inputs.target_branch }}"
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SOURCE_BRANCH: ${{ github.event.inputs.source_branch }}
           TARGET_BRANCH: ${{ github.event.inputs.target_branch }}
           PR_TITLE: "chore: merge ${{ github.event.inputs.source_branch }} into ${{ github.event.inputs.target_branch }}"
