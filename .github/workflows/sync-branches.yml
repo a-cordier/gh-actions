@@ -18,15 +18,6 @@ jobs:
           TARGET_BRANCH: "alpha"
           SOURCE_BRANCH: "main"
         run: |
-          has_diff=$( git diff --quiet --exit-code ${SOURCE_BRANCH} ${TARGET_BRANCH} ; echo $? )
-          if [[ "${has_diff}" == "0" ]]; then
-            echo "no diff between ${SOURCE_BRANCH} and ${DEPLOY_TARGET}, aborting step ..."
-            exit 0
-          elif [[ "${has_diff}" != "1" ]]; then
-            echo 'git diff failed unexpectedly.'
-            exit 1
-          fi
-
           echo "🚀 Rebasing ${TARGET_BRANCH} on ${SOURCE_BRANCH}"
 
           git fetch
