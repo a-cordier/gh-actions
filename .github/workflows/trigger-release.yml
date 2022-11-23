@@ -46,8 +46,8 @@ jobs:
 
           COMMIT_MESSAGE="chore: merge ${SOURCE_BRANCH} into ${TARGET_BRANCH}"
 
-          git config --global user.email "devs@graviteesource.com"
-          git config --global user.name "Gravitee Developers"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
 
           git merge --no-ff -m "${COMMIT_MESSAGE}" ${SOURCE_BRANCH}
 
