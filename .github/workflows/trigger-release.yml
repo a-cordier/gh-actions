@@ -42,25 +42,15 @@ jobs:
             exit 1
           fi
 
-          PR_TITLE="chore: merge ${SOURCE_BRANCH} into ${TARGET_BRANCH}"
-          PR_BODY="This pull request has been created to trigger a release on ${TARGET_BRANCH} an should merge automatically"
+          echo "🚀 Merging ${SOURCE_BRANCH} into ${TARGET_BRANCH}"
 
+          COMMIT_MESSAGE="chore: merge ${SOURCE_BRANCH} into ${TARGET_BRANCH}"
 
-          git merge --no-ff -m "${PR_TITLE}" ${SOURCE_BRANCH}
+          git config --global user.email "devs@graviteesource.com"
+          git config --global user.name "Gravitee Developers"
+
+          git merge --no-ff -m "${COMMIT_MESSAGE}" ${SOURCE_BRANCH}
+
+          git push
           
-          echo "🚀 Creating pull request from ${SOURCE_BRANCH} to ${TARGET_BRANCH}"
-
-          pr_url=$( gh pr create --base ${TARGET_BRANCH} --head ${SOURCE_BRANCH} --title "${PR_TITLE}" --body "${PR_BODY}" --no-maintainer-edit )
-
-          echo "Created pull request ${pr_url} 🚀"
-
-          if [[ -z "${pr_url}" ]]; then
-            echo "failed to create pull request unexpectedly."
-            exit 1
-          fi
-
-          echo "🚀 Merging pull request ${pr_url} ..."
-
-          gh pr merge ${pr_url} --auto --rebase"
-
-          echo "Pull request merged 🚀"
+          echo "Pushed to ${TARGET_BRANCH} 🚀"
